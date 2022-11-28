@@ -27,12 +27,12 @@ Details (About Code):
 
 Check out the code:
 
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
-import javax.swing.*;
+	import java.awt.*;
+	import java.awt.event.*;
+	import java.io.*;
+	import javax.swing.*;
 
-public class LoginPage extends JFrame implements ActionListener{
+	public class LoginPage extends JFrame implements ActionListener{
 	
 	private static final long serialVersionUID = 1L;
 	JLabel lab[] = new JLabel[4];
