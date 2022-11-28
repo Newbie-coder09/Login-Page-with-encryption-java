@@ -1,7 +1,7 @@
 # Login-Page-with-encryption-java
 Login page with data encryption and decryption of credentials.
 
-This code is solely witten in JAVA by me and its free to use as long as you don't consider the code as your's.
+This code is solely witten in JAVA by AYUSH and its free to use as long as you don't consider the code as your's.
 
 Details:
 This program will show a login page as soon as you run it and as soon as you enters your credentials and press "Sign Up", it will encrypt your crendentials and save it to "C:\Users\username\Documents\Details\Credentials.txt". Note that the encryption is very basic and can be cracked easily.
