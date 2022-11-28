@@ -4,9 +4,9 @@ Login page with data encryption and decryption of credentials.
 This code is solely witten in JAVA by AYUSH and its free to use as long as you don't consider the code as your's.
 
 Details:
-This program will show a login page as soon as you run it and as soon as you enters your credentials and press "Sign Up", it will encrypt your crendentials and save it to "C:\Users\username\Documents\Details\Credentials.txt". Note that the encryption is very basic and can be cracked easily.
+This program will show a login page as soon as you run it, and as soon as you enter your credentials and press "Sign Up", it will encrypt your credentials and save it to "C:\Users\username\Documents\Details\Credentials.txt". Note that the encryption is very basic and can be cracked easily.
 
-Now you can use the same credentials to login (or create instance of another class) as long as the "Credentials.txt" is not deleted or modified manually. The program will read and decrypt the credentials in the file and compare it to the credentials you entered, if both matches, then it will print "IT'S WORKING!" and will close the gui.
+Now you can use the same credentials to login (or run the real program) as long as the "Credentials.txt" is not deleted or modified manually. The program will read and decrypt the credentials in the file and compare it to the credentials you entered, if both matches, then it will print "IT'S WORKING!" (You can change the function) and will close the GUI.
 
 Features of the program:
 * Can store credentials for future login (Credentials will be encrypted)
