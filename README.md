@@ -29,7 +29,7 @@ Details (About Code):
 * The code is easy to understand and its under 250 lines of code
 * If you need any help regarding the code, contact me on telegram at @SOUL_AYU
 
-Check out the code (v1.0):
+Check out the code (v0.6):
 
 	import java.awt.*;
 	import java.awt.event.*;
