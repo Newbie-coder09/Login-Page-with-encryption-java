@@ -1,0 +1,7 @@
+----------------------------------------------------
+v1.0 (07/12/2022) Changelogs:
+----------------------------------------------------
+* Improved encryption and decryption logic.
+* Added username checker (Sign up will decline if same username is used again to sign up).
+* Fixed the bug where color of Username and Password labels are red in the starting.
+* Improved GUI look.
