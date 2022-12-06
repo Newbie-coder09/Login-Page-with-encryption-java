@@ -2,7 +2,7 @@
 Login page with data encryption and decryption of credentials.
 
 ******************************************************
-v1.0 released, check changelogs file for more details.
+v0.6 released, check changelogs file for more details.
 ******************************************************
 
 This code is solely witten in JAVA by AYUSH and its free to use as long as you don't consider the code as your's.
