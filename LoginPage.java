@@ -4,174 +4,218 @@ import java.io.*;
 import javax.swing.*;
 
 public class LoginPage extends JFrame implements ActionListener{
-	
-	private static final long serialVersionUID = 1L;
-	JLabel lab[] = new JLabel[4];
-	JTextField uname;
-	JPasswordField pword;
-	JButton but[] = new JButton[3];
-	String n,p;
-	
-	//TEXT ENCRYPTION LOGIC
-	String encrypt(String text) {
-		for(int i=0; i<text.length(); i++) {
-			char newChar = text.charAt(i);
-			newChar+=i;
-			text = text.replace(text.charAt(i), newChar);
-		}
-		return text;
-	}
-	
-	//TEXT DECRYPTION LOGIC
-	String decrypt(String text) {
-		for(int i=0; i<text.length(); i++) {
-			char newChar = text.charAt(i);
-			newChar-=i;
-			text = text.replace(text.charAt(i), newChar);
-		}
-		return text;
-	}
-	
-	//STORING CREDENTIALS IN A FILE
-	void appendingText() {
-		BufferedWriter writer = null;
-		try {
-			writer = new BufferedWriter(new FileWriter("C:\\Users\\"+System.getProperty("user.name")+"\\Documents\\Details\\Credentials.txt" , true)); 
-			writer.append("\n"+encrypt(String.valueOf(uname.getText())));
-			writer.append(" : ");
-			writer.append(encrypt(String.valueOf(pword.getPassword())));
-		    	} catch (Exception e) {}
-				finally {
-		    		try {
-		    			writer.close();
-		    		} catch (Exception e) {}
-		    	}
-	}
-	
-	LoginPage(){
-		//CREATION OF LABELS
-		String labels[] = {"LOGIN PAGE","", "Username:", "Password:"};
-		String buttons[] = {"Login", "Sign Up", "Theme: Light"};
-		for(int i=0; i<4; i++) {
-			lab[i] = new JLabel(labels[i]);
-			lab[i].setFont(new Font("MV Boli", Font.PLAIN, 15));
-			lab[i].setForeground(Color.RED);
-			lab[i].setVisible(true);
-			this.add(lab[i]);
-			if(i<3) {
-				but[i] = new JButton(buttons[i]);
-				but[i].setBackground(new Color(123,100,255));
-				but[i].setFont(new Font("MV Boli", Font.PLAIN, 15));
-				but[i].setFocusable(false);
-				but[i].setVisible(true);
-				but[i].addActionListener(this);
-				this.add(but[i]);
-			}
-		}
-		
-		//SETTING POSITIONS
-		lab[0].setBounds(100, -30, 150, 100);
-		lab[0].setFont(new Font("MV Boli", Font.PLAIN, 20));
-		lab[1].setBounds(50, 10, 150, 100);
-		lab[1].setFont(new Font("MV Boli", Font.PLAIN, 12));
-		lab[2].setBounds(50, 65, 150, 40);
-		lab[3].setBounds(50, 145, 150, 40);
-		but[0].setBounds(65, 240, 100, 30);
-		but[1].setBounds(185, 240, 100, 30);
-		but[2].setBounds(100, 290, 140, 30);
-		
-		//USERNAME FIELD
-		uname = new JTextField();
-		uname.setBounds(50, 100, 250, 35);
-		uname.setFont(new Font("MV Boli", Font.PLAIN, 15));
-		
-		//PASSWORD FIELD
-		pword = new JPasswordField();
-		pword.setBounds(50, 180, 250, 35);
-		pword.setFont(new Font("MV Boli", Font.PLAIN, 15));
-		
-		//FRAME
-		this.setLocationRelativeTo(null);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setResizable(false);
-		this.setLayout(null);
-		this.setSize(new Dimension(350,400));
-		this.getContentPane().setBackground(Color.WHITE);
-		this.add(uname);
-		this.add(pword);
-		this.setVisible(true);
-	}
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		//THEME BUTTON
-		if(e.getSource()==but[2]) {
-			if(this.getContentPane().getBackground()==Color.WHITE) {
-				this.getContentPane().setBackground(Color.BLACK);
-				lab[2].setForeground(Color.WHITE);
-				lab[3].setForeground(Color.WHITE);
-				but[2].setText("Theme: Dark");
-			}
-			else{
-				this.getContentPane().setBackground(Color.WHITE);
-				lab[2].setForeground(Color.BLACK);
-				lab[3].setForeground(Color.BLACK);
-				but[2].setText("Theme: Light");
-			}
+private static final long serialVersionUID = 1L;
+JLabel lab[] = new JLabel[5];
+JTextField uname;
+JPasswordField pword;
+JButton but[] = new JButton[3];
+String n,p;
+static String alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+//TEXT ENCRYPTION LOGIC
+String encrypt(String plainText, int shiftKey)
+{
+   // plainText = plainText.toLowerCase();
+    String cipherText = "";
+    for (int i = 0; i < plainText.length(); i++)
+    {
+        int charPosition = alphabet.indexOf(plainText.charAt(i));
+        int keyVal = (shiftKey + charPosition) % 52;
+        char replaceVal = alphabet.charAt(keyVal);
+        cipherText += replaceVal;
+    }
+    return cipherText;
+}
+
+//TEXT DECRYPTION LOGIC
+   public static String decrypt(String cipherText, int shiftKey)
+    {
+       // cipherText = cipherText.toLowerCase();
+        String plainText = "";
+        for (int i = 0; i < cipherText.length(); i++)
+        {
+            int charPosition = alphabet.indexOf(cipherText.charAt(i));
+            int keyVal = (charPosition - shiftKey) % 52;
+            if (keyVal < 0)
+            {
+                keyVal = alphabet.length() + keyVal;
+            }
+            char replaceVal = alphabet.charAt(keyVal);
+            plainText += replaceVal;
+        }
+        return plainText;
+    }
+
+//STORING CREDENTIALS IN A FILE
+void appendingText() {
+	BufferedWriter writer = null;
+	try {
+		writer = new BufferedWriter(new FileWriter("C:\\Users\\"+System.getProperty("user.name")+"\\Documents\\Details\\Credentials.txt" , true)); 
+		writer.append("\n"+encrypt(String.valueOf(uname.getText()), 5));
+		writer.append(" : ");
+		writer.append(encrypt(String.valueOf(pword.getPassword()), 5));
+	    	} catch (Exception e) {}
+			finally {
+	    		try {
+	    			writer.close();
+	    		} catch (Exception e) {}
+	    	}
+}
+
+LoginPage(){
+	//CREATION OF LABELS
+	String labels[] = {"LOGIN PAGE","", "Username:", "Password:", "------------------"};
+	String buttons[] = {"Login", "Sign Up", "Theme: Light"};
+	for(int i=0; i<5; i++) {
+		lab[i] = new JLabel(labels[i]);
+		lab[i].setFont(new Font("MV Boli", Font.PLAIN, 15));
+		lab[i].setForeground(Color.RED);
+		lab[i].setVisible(true);
+		this.add(lab[i]);
+		if(i<3) {
+			but[i] = new JButton(buttons[i]);
+			but[i].setBackground(new Color(123,100,255));
+			but[i].setFont(new Font("MV Boli", Font.PLAIN, 15));
+			but[i].setFocusable(false);
+			but[i].setVisible(true);
+			but[i].addActionListener(this);
+			this.add(but[i]);
 		}
-		
-		//LOGIN BUTTON (READING CREDENTIAL FILES)
-		if(e.getSource()==but[0]) {
-			try{
-			    	BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\"+System.getProperty("user.name")+"\\Documents\\Details\\Credentials.txt"));
+	}
+	
+	//SETTING POSITIONS
+	lab[0].setBounds(75, -30, 150, 100);
+	lab[4].setBounds(75, -18, 150, 100);
+	lab[0].setFont(new Font("MV Boli", Font.PLAIN, 20));
+	lab[1].setBounds(20, 0, 150, 100);
+	lab[1].setFont(new Font("MV Boli", Font.PLAIN, 12));
+	lab[2].setBounds(20, 55, 150, 40);
+	lab[3].setBounds(20, 135, 150, 40);
+	lab[2].setForeground(Color.BLACK);
+	lab[3].setForeground(Color.BLACK);
+	but[0].setBounds(35, 230, 100, 30);
+	but[1].setBounds(155, 230, 100, 30);
+	but[2].setBounds(70, 280, 140, 30);
+	
+	//USERNAME FIELD
+	uname = new JTextField();
+	uname.setBounds(20, 90, 245, 35);
+	uname.setFont(new Font("MV Boli", Font.PLAIN, 15));
+	
+	//PASSWORD FIELD
+	pword = new JPasswordField();
+	pword.setBounds(20, 170, 245, 35);
+	pword.setFont(new Font("MV Boli", Font.PLAIN, 15));
+	
+	//FRAME
+	this.setLocationRelativeTo(null);
+	this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	this.setResizable(false);
+	this.setLayout(null);
+	this.setSize(new Dimension(300,420));
+	this.getContentPane().setBackground(Color.WHITE);
+	this.add(uname);
+	this.add(pword);
+	this.setVisible(true);
+}
+
+@Override
+public void actionPerformed(ActionEvent e) {
+	//THEME BUTTON
+	if(e.getSource()==but[2]) {
+		if(this.getContentPane().getBackground()==Color.WHITE) {
+			this.getContentPane().setBackground(Color.BLACK);
+			lab[2].setForeground(Color.WHITE);
+			lab[3].setForeground(Color.WHITE);
+			but[2].setText("Theme: Dark");
+		}
+		else{
+			this.getContentPane().setBackground(Color.WHITE);
+			lab[2].setForeground(Color.BLACK);
+			lab[3].setForeground(Color.BLACK);
+			but[2].setText("Theme: Light");
+		}
+	}
+	
+	//LOGIN BUTTON (READING CREDENTIAL FILES)
+	if(e.getSource()==but[0]) {
+		try{
+		    	BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\"+System.getProperty("user.name")+"\\Documents\\Details\\Credentials.txt"));
+		    	String line;
+		    	while ((line = reader.readLine()) != null)
+		    	{
+		    		if(!line.equals("")){
+		    			n = decrypt(line.substring(0,line.indexOf(" ")), 5);
+		    			p = decrypt(line.substring(line.indexOf(" ")+3), 5);
+		    			if(String.valueOf(uname.getText()).equals("")||String.valueOf(pword.getPassword()).equals("")) {
+		    				lab[1].setForeground(Color.red);
+							lab[1].setText("Enter Valid Credentials!");
+						}
+		    			else if(n.equals(uname.getText())) {
+							if(p.equals(String.valueOf(pword.getPassword()))) {
+								System.out.println("ITS WORKING");
+								this.dispose();
+								break;
+							}
+							else {
+								lab[1].setForeground(Color.red);
+								lab[1].setText("Wrong Password!");
+								break;
+							}
+						}
+						else {
+							lab[1].setForeground(Color.red);
+							lab[1].setText("User Doesn't Exist!");
+						}
+		    		}
+		    	}
+		    	reader.close();
+		  	}
+		catch (Exception e1)
+		{}
+	}
+	
+	//SIGN UP BUTTON
+	if(e.getSource()==but[1]) {
+		if(String.valueOf(uname.getText()).equals("")||String.valueOf(pword.getPassword()).equals("")) {
+			lab[1].setForeground(Color.red);
+			lab[1].setText("Enter Valid Credentials!");
+		}
+		else {
+			File file = new File("C:\\Users\\"+System.getProperty("user.name")+"\\Documents\\Details");
+			if(file.isDirectory()) {
+				BufferedReader reader;
+				try {
+					reader = new BufferedReader(new FileReader("C:\\Users\\"+System.getProperty("user.name")+"\\Documents\\Details\\Credentials.txt"));
 			    	String line;
 			    	while ((line = reader.readLine()) != null)
 			    	{
 			    		if(!line.equals("")){
-			    			n = decrypt(line.substring(0,line.indexOf(" ")));
-			    			p = decrypt(line.substring(line.indexOf(" ")+3));
-			    			if(String.valueOf(uname.getText()).equals("")||String.valueOf(pword.getPassword()).equals("")) {
+			    			n = decrypt(line.substring(0,line.indexOf(" ")), 5);
+			    			p = decrypt(line.substring(line.indexOf(" ")+3), 5);
+			    			if(n.equals(uname.getText())) {
 			    				lab[1].setForeground(Color.red);
-								lab[1].setText("Enter Valid Credentials!");
-							}
-			    			else if(n.equals(uname.getText())) {
-								if(p.equals(String.valueOf(pword.getPassword()))) {
-									System.out.println("ITS WORKING");
-									this.dispose();
-								}
-								else {
-									lab[1].setForeground(Color.red);
-									lab[1].setText("Wrong Password!");
-								}
-							}
-							else {
-								lab[1].setForeground(Color.red);
-								lab[1].setText("User Doesn't Exist!");
-							}
+								lab[1].setText("User already exixt");
+								break;
+			    			}
+			    			else {
+			    				appendingText();
+			    				lab[1].setForeground(Color.GREEN);
+			    				lab[1].setText("Registration Done!");
+			    				uname.setText("");
+			    				pword.setText("");
+			    				break;
+			    			}
+			    			}
 			    		}
-			    	}
-			    	reader.close();
-			  	}
-			catch (Exception e1)
-			{}
-		}
-		
-		//SIGN UP BUTTON
-		if(e.getSource()==but[1]) {
-			if(String.valueOf(uname.getText()).equals("")||String.valueOf(pword.getPassword()).equals("")) {
-				lab[1].setForeground(Color.red);
-				lab[1].setText("Enter Valid Credentials!");
+				} catch (Exception e1) {
+					e1.printStackTrace();
+					}
 			}
 			else {
-				File file = new File("C:\\Users\\"+System.getProperty("user.name")+"\\Documents\\Details");
-				if (file.isDirectory())
-					appendingText();
-				else {
-					boolean res = file.mkdir();
-					if(res)
-						appendingText();
-			    	else {}
-				}
+				file.mkdir();
+				appendingText();
 				lab[1].setForeground(Color.GREEN);
 				lab[1].setText("Registration Done!");
 				uname.setText("");
@@ -179,4 +223,5 @@ public class LoginPage extends JFrame implements ActionListener{
 			}
 		}
 	}
+}
 }
