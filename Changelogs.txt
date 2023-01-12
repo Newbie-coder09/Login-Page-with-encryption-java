@@ -1,4 +1,14 @@
 ----------------------------------------------------
+v1.5 (12/01/2023) Changelogs:
+----------------------------------------------------
+* Added separate SignUp page.
+* Added Recovery key (used to change password).
+* Same password and key as username cannot be used.
+* Fixed a bug where it was possible to create account with existing username.
+* Added Forgot password button (to change password).
+* Improved Encryption and Decryption.
+
+----------------------------------------------------
 v0.6 (07/12/2022) Changelogs:
 ----------------------------------------------------
 * Improved encryption and decryption logic.
